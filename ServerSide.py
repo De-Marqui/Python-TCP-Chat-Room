@@ -20,7 +20,7 @@ def b_usr(cs_sock, msg):
         if client != cs_sock:
             client.send(msg)
 
-def main():  
+if __name__ == "__main__":  
     CONNECTION_LIST = []
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -32,6 +32,4 @@ def main():
     print(f"Chat Room server started on: {str(PORT)}")
 
     thread_accepted = threading.Thread(target = accept_client)
-    thread_accepted.start()--
-    
-main()
+    thread_accepted.start()
