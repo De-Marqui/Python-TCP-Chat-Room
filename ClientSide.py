@@ -1,27 +1,27 @@
 import socket, threading
 
-def send():
-    while True:
-        cli_sock.send(input('\n').encode())
 
 def receive():
     while True:
-        sen_name = cli_sock.recv(1024)
-        data = cli_sock.recv(1024)
-        print(f"\n<{str(sen_name)}> {str(data)}")
+            usr_name = clientSocket.recv(1024).decode('utf-8')
+            data = clientSocket.recv(1024).decode('utf-8')
+            print(f"\n[{str(usr_name)}] {str(data)}")
+        
+def send():
+    while True:
+        clientSocket.send(input('\n ').encode('utf-8'))
 
-if __name__ == "__main__":   
-    cli_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    HOST = '192.168.0.22'
-    PORT = 5023
-    cli_sock.connect((HOST, PORT))
-    
-    print('[Connected to the server!]')
-    uname = input('Enter your nickname: ')
-    cli_sock.send(uname.encode())
 
-    thread_send = threading.Thread(target = send)
-    thread_send.start()
-    thread_receive = threading.Thread(target = receive)
-    thread_receive.start()
+clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+clientSocket.connect(('localhost', 32014))
+
+print('[Connected to the Chat Room!]')
+clientSocket.send(input('Enter your nickname: ').encode('utf-8'))
+
+threadReceive = threading.Thread(target = receive)
+threadReceive.start()
+
+threadSend = threading.Thread(target = send)
+threadSend.start()
+
