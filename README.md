@@ -1,2 +1,2 @@
-# Simple-UDP-Thread-Chat
-Python UDP Thread Chat -> Web Chat Room Simulation
+# Simple-TCP-Thread-Chat
+Python TCP Thread Chat -> Web Chat Room Simulation
