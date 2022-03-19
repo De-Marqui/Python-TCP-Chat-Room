@@ -1,35 +1,46 @@
 import socket, threading
 
-def accept_client():
-    while True: 
-        cli_socket, cli_add = server_socket.accept()
-        CONNECTION_LIST.append(cli_socket)
-        
-        thread_client = threading.Thread(target = broadcast_usr, args = [cli_socket])
-        thread_client.start()
+HOST = 'localhost'
+PORT = 32014
+serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+serverSocket.bind((HOST,PORT))
+serverSocket.listen()
 
-def broadcast_usr(cli_sock):
-    #TODO Implementar exception + checagem para validação de Data
+Connections = []
+print(f'Chat Room started on {str(PORT)}')
+
+def newClient():
     while True:
-      data = cli_sock.recv(1024)
-      b_usr(cli_sock, data)
-  
+            clientSocket, clientAddress = serverSocket.accept()
+            userName = clientSocket.recv(1024)  
+            Connections.append((userName, clientSocket))
+            
+            print(f'{userName} JOINED the Chat Room')
+            sendMessage(clientSocket, userName, f'Joined'.encode())
+            
+            threadClient = threading.Thread(target = transmitionSYS, args=[userName, clientSocket])
+            threadClient.start()
+       
 
-def b_usr(cs_sock, msg):
-    for client in CONNECTION_LIST:
-        if client != cs_sock:
-            client.send(msg)
+def transmitionSYS(userName, clientSocket):
+    while True:
+        try:
+            data = clientSocket.recv(1024)
+            if data:
+                print(f'New Message: {userName}')
+                sendMessage(clientSocket, userName, data)
+        except:
+            sendMessage(clientSocket,userName, f'{userName} left the Chat Room'.encode())
+            print(f'{userName} LEFT the Chat Room')
+            Connections.pop(Connections.index((userName, clientSocket)))
+            clientSocket.close()
+            
 
-if __name__ == "__main__":  
-    CONNECTION_LIST = []
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+def sendMessage(clientSocket, userName, data):
+    for client in Connections:
+        if client[1] != clientSocket:
+            client[1].send(userName)
+            client[1].send(data)
 
-    HOST = '192.168.0.22'
-    PORT = 5023
-    server_socket.bind((HOST, PORT))
-  
-    server_socket.listen(1)
-    print(f"Chat Room server started on: {str(PORT)}")
-
-    thread_accepted = threading.Thread(target = accept_client)
-    thread_accepted.start()
+   
+newClient()
