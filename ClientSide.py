@@ -4,12 +4,11 @@ def receive():
     while True:
             userName = clientSocket.recv(1024).decode('utf-8')
             data = clientSocket.recv(1024).decode('utf-8')
-            print(f"\n[{str(userName)}] {str(data)}")
+            print(f"[{str(userName)}] {str(data)}\n")
         
 def send():
     while True:
         clientSocket.send(input('\n').encode('utf-8'))
-https://github.com/De-Marqui/Python-TCP-Chat-Room/blob/main/ClientSide.py
 
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientSocket.connect(('localhost', 32014))
