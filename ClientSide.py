@@ -8,7 +8,7 @@ def receive():
         
 def send():
     while True:
-        clientSocket.send(input('\n ').encode('utf-8'))
+        clientSocket.send(input('\n').encode('utf-8'))
 
 
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
