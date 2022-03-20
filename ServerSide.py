@@ -30,11 +30,11 @@ def transmitionSYS(userName, clientSocket):
                 print(f'New Message: {userName}')
                 sendMessage(clientSocket, userName, data)
         except:
-            sendMessage(clientSocket,userName, f'{userName} left the Chat Room'.encode())
+            sendMessage(clientSocket,userName, f'left the Chat Room'.encode())
             print(f'{userName} LEFT the Chat Room')
-            Connections.pop(Connections.index((userName, clientSocket)))
+            Connections.remove((userName, clientSocket))
             clientSocket.close()
-            
+            break
 
 def sendMessage(clientSocket, userName, data):
     for client in Connections:
