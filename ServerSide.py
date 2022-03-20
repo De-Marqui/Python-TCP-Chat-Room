@@ -19,8 +19,7 @@ def newClient():
             sendMessage(clientSocket, userName, f'Joined'.encode())
             
             threadClient = threading.Thread(target = transmitionSYS, args=[userName, clientSocket])
-            threadClient.start()
-       
+            threadClient.start()  
 
 def transmitionSYS(userName, clientSocket):
     while True:
@@ -41,6 +40,5 @@ def sendMessage(clientSocket, userName, data):
         if client[1] != clientSocket:
             client[1].send(userName)
             client[1].send(data)
-
    
 newClient()
