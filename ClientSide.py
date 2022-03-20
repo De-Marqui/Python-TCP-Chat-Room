@@ -1,16 +1,14 @@
 import socket, threading
 
-
 def receive():
     while True:
-            usr_name = clientSocket.recv(1024).decode('utf-8')
+            userName = clientSocket.recv(1024).decode('utf-8')
             data = clientSocket.recv(1024).decode('utf-8')
-            print(f"\n[{str(usr_name)}] {str(data)}")
+            print(f"\n[{str(userName)}] {str(data)}")
         
 def send():
     while True:
         clientSocket.send(input('\n ').encode('utf-8'))
-
 
 
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -24,4 +22,3 @@ threadReceive.start()
 
 threadSend = threading.Thread(target = send)
 threadSend.start()
-
