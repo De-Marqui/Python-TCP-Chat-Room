@@ -9,7 +9,7 @@ def receive():
 def send():
     while True:
         clientSocket.send(input('\n').encode('utf-8'))
-
+https://github.com/De-Marqui/Python-TCP-Chat-Room/blob/main/ClientSide.py
 
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientSocket.connect(('localhost', 32014))
